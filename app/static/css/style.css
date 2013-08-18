@@ -9,7 +9,19 @@ li {
 #cookie-map {
     height: 600px;
 }
+#new-message-form {
+    padding: 35px 0;
+    background: #f0d127 url(../img/message-bg.png) no-repeat 97% center;
+    border-bottom: 1px solid #d4b925;
+    color: #585858;
+}
+#new-message-form form {
+    margin: 0;
+}
 
+#new-message-form .lead {
+    font-weight: bold;
+}
 
 .leaflet-cluster-anim .leaflet-marker-icon, .leaflet-cluster-anim .leaflet-marker-shadow {
     -webkit-transition: -webkit-transform 0.2s ease-out, opacity 0.2s ease-in;

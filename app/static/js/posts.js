@@ -37,13 +37,15 @@ $(document).ready(function() {
 
         $.get('/posts/list/' + position.coords.latitude + '/' + position.coords.longitude, function(data){
             var posts = data.result;
-            for (var i = 0; i < data.result.length; i++) {
-                var marker = L.marker([data.result[i].lat, data.result[i].long], {icon: cookiePin});
-                marker.bindPopup(data.result[i].secret);
-                markers.addLayer(marker);
-            };
-            map.addLayer(markers);
-            $('#posts tbody').html(posTemplate({results: posts}));
+            if(posts.length){
+                for (var i = 0; i < data.result.length; i++) {
+                    var marker = L.marker([data.result[i].lat, data.result[i].long], {icon: cookiePin});
+                    marker.bindPopup(data.result[i].secret);
+                    markers.addLayer(marker);
+                };
+                map.addLayer(markers);
+                $('#posts tbody').html(posTemplate({results: posts, count: posts.length}));
+            }
         });
         
     });
@@ -54,7 +56,7 @@ $(document).ready(function() {
 
     $('.show-new-message-form').on('click', function(e) {
         e.preventDefault();
-        $('#new-message-form').toggle();
+        $('#new-message-form').slideToggle('fast');
         $('#new-message-form input[name=secret]').focus();
     });
 
@@ -69,7 +71,7 @@ $(document).ready(function() {
                 markers.addLayer(marker);
             };
         
-            $('#posts tbody').html(posTemplate({results: posts}));
+            $('#posts tbody').html(posTemplate({results: posts, count: posts.length}));
 
             $('#new-message-form').toggle();
             $('#new-message-form input[name=secret]').val('');
