@@ -41,5 +41,6 @@ def new():
         form.populate_obj(post)
         db.session.add(post)
         db.session.commit()
-        return jsonify(result={'secret': post.secret, 'long': str(post.long), 'lat': str(post.lat)})
+        posts = Post.nearby_posts(post.lat, post.long, POST_AGE_THRESHOLD)
+        return jsonify(result=[{'long': str(p.long), 'lat': str(p.lat), 'secret': p.secret, 'created': str(p.created_time)} for p in posts]), 200
     return jsonify(result={'error': 'invalid form.'})

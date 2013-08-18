@@ -12,7 +12,7 @@
     <link href="/static/bootstrap/css/bootstrap.css" rel="stylesheet">
     <style>
       body {
-        padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
+        padding-top: 50px; /* 60px to make the container go all the way to the bottom of the topbar */
       }
     </style>
     <link href="/static/bootstrap/css/bootstrap-responsive.css" rel="stylesheet">
@@ -38,43 +38,40 @@
       <div class="navbar-inner">
         <div class="container">
           <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-              <div class="btn-toolbar">
-                <div class="btn-group">
-                  <a class="btn" href="#about"><i class="icon-info-sign"></i></a>
-                  <a class="btn" href="#contact"><i class="icon-user"></i></a>
-                </div>
-              </div>
+              <span class="icon-bar"></span>
           </button>
           <a class="brand" href="#"><img src="/static/img/logo-150.png" alt="Cookie Drop" /></a>
           <div class="nav-collapse collapse">
             <ul class="nav">
               <li class="active"><a href="#">Home</a></li>
               <li><a href="#about">About</a></li>
-              <li><a href="#contact">Contact</a></li>
+              <li><a href="#" class="show-new-message-form">New Message</a></li>
             </ul>
           </div><!--/.nav-collapse -->
         </div>
       </div>
     </div>
 
-    <div class="container">
-        <div id="initial" class="nomap">
-            <p class="lead"><em>Cookie Drop</em> allows you to share discreet messages in time in space. Before you can create or view messages you must share your location.</p>
-            <p>Currently detecting your location...</p>
+    <div id="initial" class="nomap container">
+        <p class="lead"><em>Cookie Drop</em> allows you to share discreet messages in time in space. Before you can create or view messages you must share your location.</p>
+        <p>Currently detecting your location...</p>
+    </div>
+    <div class="location-shared" style="display: none;">
+        <div style="clear: both; display: none;" id="new-message-form">
+            <form method="POST" action="/posts/new" class="form-inline">
+                <div class="container">
+                    <p class="lead">Leave a message in the ether...</p>
+                    <div class="pull-center">
+                        {{ form.hidden_tag() }}
+                        <label>{{ form.secret.label }}</label>
+                        {{ form.secret(size=255) }}
+                        <input type="submit" value="Go" class="btn" />
+                    </div>
+                 </div>
+            </form>
         </div>
-        <div id="location-shared" style="display: none;">
-            <div class="btn-toolbar pull-right">
-              <a href="#new" class="show-new-message-form btn btn-primary">New Message</a>
-            </div>
-            <div style="clear: both; display: none;" id="new-message-form">
-                <form method="POST" action="/posts/new" class="form-inline">
-                    {{ form.hidden_tag() }}
-                    <label>{{ form.secret.label }}</label>
-                    {{ form.secret(size=255) }}
-                    <input type="submit" value="Go" class="btn" />
-                </form>
-            </div>
-            <div style="clear: both;" id="cookie-map"></div>
+        <div style="clear: both;" id="cookie-map"></div>
+        <div class="container">
             <table id="posts" class="table table-striped">
               <thead>
                 <tr>
@@ -85,13 +82,13 @@
                 </tr>
               </thead>
               <tbody>
-                
-              </bbody>
+              </tbody>
             </table>
         </div>
-        <div id="unsupported" class="nomap" style="display: none;">
-            <p>Alas, your browser does not support geolocation. Boo! Upgrade your browser, foo'.</p>
-        </div>
+    </div>
+    <div id="unsupported" class="nomap container" style="display: none;">
+        <p>Alas, your browser does not support geolocation. Boo! Upgrade your browser, foo'.</p>
+    </div>
   </div>
 
 {% raw %}
@@ -106,8 +103,6 @@
 {{/each}}
 </script>
 {% endraw %}
-
-
 
     <!-- Le javascript
     ================================================== -->
