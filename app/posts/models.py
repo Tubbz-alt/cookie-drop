@@ -34,7 +34,7 @@ class Post(db.Model):
         long_lower = Decimal(long) - rough_distance
         long_upper = Decimal(long) + rough_distance
         posts = db.session.query(Post).filter(Post.lat.between(lat_lower, lat_upper))
-        posts = posts.filter(Post.long.between(long_lower, long_upper))
+        posts = posts.filter(Post.long.between(long_lower, long_upper)).order_by('id desc')
         for post in posts:
             exact_distance = distance.distance((post.lat, post.long), (lat, long))
             if exact_distance.miles <= dist:
