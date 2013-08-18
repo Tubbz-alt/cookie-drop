@@ -37,9 +37,11 @@ $(document).ready(function() {
         map.fitBounds(radiusBounds.getBounds());
 
         $.get('/posts/list/' + position.coords.latitude + '/' + position.coords.longitude, function(data){
+            markers.clearLayers();
             var posts = data.result;
             if(posts.length){
                 for (var i = 0; i < data.result.length; i++) {
+                    console.log(data.result[i]);
                     var marker = L.marker([data.result[i].lat, data.result[i].long], {icon: cookiePin});
                     marker.bindPopup(data.result[i].secret);
                     markers.addLayer(marker);
