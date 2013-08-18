@@ -4,7 +4,7 @@ from flask import Blueprint, request, render_template, flash, g, session, redire
 from werkzeug import check_password_hash, generate_password_hash
 
 from flask_wtf import Form
-from wtforms import TextField
+from wtforms import TextField, HiddenField
 
 from app import db
 from app.posts.models import Post
@@ -12,11 +12,16 @@ from app.posts.models import Post
 mod = Blueprint('posts', __name__, url_prefix='/posts/')
 
 
+class NewPostForm(Form):
+    long = HiddenField()
+    lat = HiddenField()
+    secret = TextField('Message')
+
+
 @mod.route('')
 def home():
-    yesterday = datetime.datetime.utcnow() - datetime.timedelta(1)
-    posts = Post.query.filter(Post.created_time > yesterday).order_by('created_time DESC').all()
-    return render_template("posts/index.html", posts=posts)
+    form = NewPostForm()
+    return render_template("posts/index.html", form=form)
 
 
 @mod.route('list/<lat>/<long>', methods=['GET'])
@@ -28,8 +33,11 @@ def list(lat, long):
 
 @mod.route('new', methods=['POST'])
 def new():
-    post = Post(secret=request.args.get('secret'),
-            long=request.args.get('long'),
-            lat=request.args.get('lat'))
-    db.session.add(post)
-    return jsonify(post)
+    form = NewPostForm()
+    post = Post()
+    if form.validate_on_submit():
+        form.populate_obj(post)
+        db.session.add(post)
+        db.session.commit()
+        return jsonify(result={'secret': post.secret, 'long': str(post.long), 'lat': str(post.lat)})
+    return jsonify(result={'error': 'invalid form.'})

@@ -64,7 +64,15 @@
         </div>
         <div id="location-shared" style="display: none;">
             <div class="btn-toolbar pull-right">
-              <a href="#new" class="btn btn-primary">New Message</a>
+              <a href="#new" class="show-new-message-form btn btn-primary">New Message</a>
+            </div>
+            <div style="clear: both; display: none;" id="new-message-form">
+                <form method="POST" action="/posts/new" class="form-inline">
+                    {{ form.hidden_tag() }}
+                    <label>{{ form.secret.label }}</label>
+                    {{ form.secret(size=255) }}
+                    <input type="submit" value="Go" class="btn" />
+                </form>
             </div>
             <div style="clear: both;" id="cookie-map"></div>
         </div>
