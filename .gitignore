@@ -33,3 +33,4 @@ pip-log.txt
 
 db
 venv
+app.db
