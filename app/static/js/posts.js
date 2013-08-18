@@ -17,6 +17,7 @@ $(document).ready(function() {
     });
     
     var markers = L.markerClusterGroup();
+    map.addLayer(markers);
 
     navigator.geolocation.watchPosition(function(position) {
         $('div.nomap').hide();
@@ -43,9 +44,10 @@ $(document).ready(function() {
                     marker.bindPopup(data.result[i].secret);
                     markers.addLayer(marker);
                 };
-                map.addLayer(markers);
+                
                 $('#posts tbody').html(posTemplate({results: posts, count: posts.length}));
             }
+
         });
         
     });
@@ -73,7 +75,7 @@ $(document).ready(function() {
         
             $('#posts tbody').html(posTemplate({results: posts, count: posts.length}));
 
-            $('#new-message-form').toggle();
+            $('#new-message-form').slideToggle();
             $('#new-message-form input[name=secret]').val('');
         });
     })

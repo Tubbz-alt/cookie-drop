@@ -23,6 +23,10 @@ li {
     font-weight: bold;
 }
 
+#posts {
+    margin: 60px 0;
+}
+
 .leaflet-cluster-anim .leaflet-marker-icon, .leaflet-cluster-anim .leaflet-marker-shadow {
     -webkit-transition: -webkit-transform 0.2s ease-out, opacity 0.2s ease-in;
     -moz-transition: -moz-transform 0.2s ease-out, opacity 0.2s ease-in;
