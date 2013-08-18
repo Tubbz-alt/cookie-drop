@@ -7,6 +7,12 @@ $(document).ready(function() {
 
     var postSource   = $("#post-template").html();
     var posTemplate = Handlebars.compile(postSource);
+    var radiusBounds = L.circle([0, 0], 1069, {
+            color: '#e4e6e8',
+            fillColor: '#2e3846',
+            fillOpacity: 0.3,
+            weight: 1
+        }).addTo(map);
 
     var cookiePin = L.icon({
         iconUrl: '/static/img/cookie-pin.png',
@@ -26,14 +32,7 @@ $(document).ready(function() {
         $('#new-message-form input[name=long]').val(position.coords.longitude);
         $('#new-message-form input[name=lat]').val(position.coords.latitude);
 
-
-        var radiusBounds = L.circle([position.coords.latitude, position.coords.longitude], 1069, {
-            color: '#e4e6e8',
-            fillColor: '#2e3846',
-            fillOpacity: 0.3,
-            weight: 1
-        }).addTo(map);
-    
+        radiusBounds.setLatLng([position.coords.latitude, position.coords.longitude])
         map.fitBounds(radiusBounds.getBounds());
 
         $.get('/posts/list/' + position.coords.latitude + '/' + position.coords.longitude, function(data){
@@ -41,7 +40,6 @@ $(document).ready(function() {
             var posts = data.result;
             if(posts.length){
                 for (var i = 0; i < data.result.length; i++) {
-                    console.log(data.result[i]);
                     var marker = L.marker([data.result[i].lat, data.result[i].long], {icon: cookiePin});
                     marker.bindPopup(data.result[i].secret);
                     markers.addLayer(marker);
