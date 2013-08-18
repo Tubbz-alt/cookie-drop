@@ -12,5 +12,5 @@ mod = Blueprint('posts', __name__, url_prefix='/posts')
 @mod.route('')
 def home():
     yesterday = datetime.datetime.utcnow() - datetime.timedelta(1)
-    posts = Post.query.filter_by(Post.created_time > yesterday).order_by('created_time DESC').all()
+    posts = Post.query.filter(Post.created_time > yesterday).order_by('created_time DESC').all()
     return render_template("posts/index.html", posts=posts)
