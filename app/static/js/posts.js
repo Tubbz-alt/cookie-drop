@@ -18,5 +18,5 @@ $(document).ready(function() {
     }
 });
 $('.show-new-message-form').on('click', function() {
-    $('#new-message-form').show();
+    $('#new-message-form').toggle();
 });
