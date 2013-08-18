@@ -38,12 +38,17 @@ $(document).ready(function() {
 
         L.marker([position.coords.latitude, position.coords.longitude], {icon: userPin}).addTo(map);
 
+        var postSource   = $("#post-template").html();
+        var posTemplate = Handlebars.compile(postSource);
+        var posts = []
         $.get('/posts/list/' + position.coords.latitude + '/' + position.coords.longitude, function(data){
+            posts = data.result;
             for (var i = 0; i < data.result.length; i++) {
                 L.marker([data.result[i].lat, data.result[i].long], {icon: cookiePin}).addTo(map);
             };
+            $('#posts tbody').html(posTemplate({results: posts}));
         });
-
+        
      });
 
     } else {

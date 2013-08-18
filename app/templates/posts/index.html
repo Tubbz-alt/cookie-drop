@@ -71,17 +71,46 @@
             </form>
         </div>
         <div style="clear: both;" id="cookie-map"></div>
+        <div class="container">
+            <table id="posts" class="table table-striped">
+              <thead>
+                <tr>
+                  <th>Secret</th>
+                  <th>Lat</th>
+                  <th>Lng</th>
+                  <th>Date</th>
+                </tr>
+              </thead>
+              <tbody>
+              </tbody>
+            </table>
+        </div>
     </div>
     <div id="unsupported" class="nomap container" style="display: none;">
         <p>Alas, your browser does not support geolocation. Boo! Upgrade your browser, foo'.</p>
     </div>
   </div>
+
+{% raw %}
+<script id="post-template" type="text/x-handlebars-template">
+  {{#each results}}
+  <tr>
+    <td>{{secret}}</td>
+    <td>{{lat}}</td>
+    <td>{{long}}</td>
+    <td>{{created}}</td>
+  </tr>
+{{/each}}
+</script>
+{% endraw %}
+
     <!-- Le javascript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
     <script src="/static/js/jquery-1.10.2.min.js"></script>
     <script src="/static/bootstrap/js/bootstrap.min.js"></script>
     <script src="/static/js/modernizr.geo.custom.js"></script>
+    <script src="/static/js/handlebars.js"></script>
     <script src='http://api.tiles.mapbox.com/mapbox.js/v1.3.1/mapbox.js'></script>
     <script src="/static/js/posts.js"></script>
   </body>
