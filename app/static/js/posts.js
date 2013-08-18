@@ -2,7 +2,7 @@ $(document).ready(function() {
     if (Modernizr.geolocation) {
      navigator.geolocation.getCurrentPosition(function(position){
         $('div.nomap').hide();
-        $('div#location-shared').show();
+        $('div.location-shared').show();
         
         var map = L.mapbox.map('cookie-map', 'egdelwonk.map-e1ydkdp5', {
             attributionControl: false
@@ -51,6 +51,8 @@ $(document).ready(function() {
         $('div#unsupported').show();
     }
 });
-$('.show-new-message-form').on('click', function() {
+$('.show-new-message-form').on('click', function(e) {
+    e.preventDefault();
     $('#new-message-form').toggle();
+    $('#new-message-form input[name=secret]').focus();
 });
