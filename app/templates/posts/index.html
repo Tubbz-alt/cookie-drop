@@ -1,14 +1,99 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
+    <meta charset="utf-8">
     <title>Cookie Drop</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- Bootstrap -->
-    <link href="/static/bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <!-- Le styles -->
+    <link href="/static/bootstrap/css/bootstrap.css" rel="stylesheet">
+    <style>
+      body {
+        padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
+      }
+    </style>
+    <link href="/static/bootstrap/css/bootstrap-responsive.css" rel="stylesheet">
+    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.6.4/leaflet.css" />
+    <link href="/static/css/style.css" rel="stylesheet">
+
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="/static/bootstrap/js/html5shiv.js"></script>
+    <![endif]-->
+
+    <!-- Fav and touch icons -->
+        <link rel="apple-touch-icon-precomposed" href="/static/bootstrap/ico/apple-touch-icon-57-precomposed.png">
+        <link rel="shortcut icon" href="/static/bootstrap/ico/favicon.png">
   </head>
+
   <body>
-    <h1>Cookies Dropped</h1>
-    <script src="http://code.jquery.com/jquery.js"></script>
+
+    <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+          <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+              <div class="btn-toolbar">
+                <div class="btn-group">
+                  <a class="btn" href="#about"><i class="icon-info-sign"></i></a>
+                  <a class="btn" href="#contact"><i class="icon-user"></i></a>
+                </div>
+              </div>
+          </button>
+          <a class="brand" href="#"><img src="/static/img/logo-150.png" alt="Cookie Drop" /></a>
+          <div class="nav-collapse collapse">
+            <ul class="nav">
+              <li class="active"><a href="#">Home</a></li>
+              <li><a href="#about">About</a></li>
+              <li><a href="#contact">Contact</a></li>
+            </ul>
+          </div><!--/.nav-collapse -->
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+        <div id="initial" class="nomap">
+            <p class="lead"><em>Cookie Drop</em> allows you to share discreet messages in time in space. Before you can create or view messages you must share your location.</p>
+            <p>Currently detecting your location...</p>
+        </div>
+        <div id="location-shared" style="display: none;">
+            <div class="btn-toolbar pull-right">
+              <a href="#new" class="btn btn-primary">New Message</a>
+            </div>
+            <div style="clear: both;" id="cookie-map"></div>
+        </div>
+        <div id="unsupported" class="nomap" style="display: none;">
+            <p>Alas, your browser does not support geolocation. Boo! Upgrade your browser, foo'.</p>
+        </div>
+  </div>
+    <!-- Le javascript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="/static/js/jquery-1.10.2.min.js"></script>
     <script src="/static/bootstrap/js/bootstrap.min.js"></script>
+    <script src="http://cdn.leafletjs.com/leaflet-0.6.4/leaflet.js"></script>
+    <script src="/static/js/modernizr.geo.custom.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            if (Modernizr.geolocation) {
+                navigator.geolocation.getCurrentPosition(show_map);
+            } else {
+                $('div.container div').hide();
+                $('div#unsupported').show();
+            }
+            function get_location() {
+              navigator.geolocation.getCurrentPosition(show_map);
+            }
+        });
+        function show_map(position) {
+            $('div.nomap').hide();
+            $('div#location-shared').show();
+        }
+    </script>
+
+    <script src="/static/js/posts.js"></script>
   </body>
 </html>
+
