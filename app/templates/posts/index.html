@@ -24,11 +24,8 @@
     <![endif]-->
 
     <!-- Fav and touch icons -->
-    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/static/bootstrap/ico/apple-touch-icon-144-precomposed.png">
-    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="/static/bootstrap/ico/apple-touch-icon-114-precomposed.png">
-      <link rel="apple-touch-icon-precomposed" sizes="72x72" href="/static/bootstrap/ico/apple-touch-icon-72-precomposed.png">
-                    <link rel="apple-touch-icon-precomposed" href="/static/bootstrap/ico/apple-touch-icon-57-precomposed.png">
-                                   <link rel="shortcut icon" href="/static/bootstrap/ico/favicon.png">
+        <link rel="apple-touch-icon-precomposed" href="/static/bootstrap/ico/apple-touch-icon-57-precomposed.png">
+        <link rel="shortcut icon" href="/static/bootstrap/ico/favicon.png">
   </head>
 
   <body>
@@ -37,9 +34,12 @@
       <div class="navbar-inner">
         <div class="container">
           <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
+              <div class="btn-toobar">
+                <div class="btn-group">
+                  <a class="btn" href="#about"><i class="icon-info-sign"></i></a>
+                  <a class="btn" href="#contact"><i class="icon-user"></i></a>
+                </div>
+              </div>
           </button>
           <a class="brand" href="#"><img src="/static/img/logo-150.png" alt="Cookie Drop" /></a>
           <div class="nav-collapse collapse">
