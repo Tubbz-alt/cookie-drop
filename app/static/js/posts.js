@@ -4,7 +4,7 @@ $(document).ready(function() {
     var map = L.mapbox.map('cookie-map', 'egdelwonk.map-e1ydkdp5', {
         attributionControl: false
     });
-
+    var lat, lng;
     var postSource   = $("#post-template").html();
     var posTemplate = Handlebars.compile(postSource);
     var radiusBounds = L.circle([0, 0], 1069, {
@@ -26,30 +26,33 @@ $(document).ready(function() {
     map.addLayer(markers);
 
     navigator.geolocation.watchPosition(function(position) {
-        $('div.nomap').hide();
-        $('div.location-shared').show();
-        
-        $('#new-message-form input[name=long]').val(position.coords.longitude);
-        $('#new-message-form input[name=lat]').val(position.coords.latitude);
+        if(lat != position.coords.latitude || lng != position.coords.longitude){
+            lat = position.coords.latitude;
+            lng = position.coords.longitude;
+            $('div.nomap').hide();
+            $('div.location-shared').show();
+            
+            $('#new-message-form input[name=long]').val(position.coords.longitude);
+            $('#new-message-form input[name=lat]').val(position.coords.latitude);
 
-        radiusBounds.setLatLng([position.coords.latitude, position.coords.longitude])
-        map.fitBounds(radiusBounds.getBounds());
+            radiusBounds.setLatLng([position.coords.latitude, position.coords.longitude])
+            map.fitBounds(radiusBounds.getBounds());
 
-        $.get('/posts/list/' + position.coords.latitude + '/' + position.coords.longitude, function(data){
-            markers.clearLayers();
-            var posts = data.result;
-            if(posts.length){
-                for (var i = 0; i < data.result.length; i++) {
-                    var marker = L.marker([data.result[i].lat, data.result[i].long], {icon: cookiePin});
-                    marker.bindPopup(data.result[i].secret);
-                    markers.addLayer(marker);
-                };
-                
-                $('#posts tbody').html(posTemplate({results: posts, count: posts.length}));
-            }
+            $.get('/posts/list/' + position.coords.latitude + '/' + position.coords.longitude, function(data){
+                markers.clearLayers();
+                var posts = data.result;
+                if(posts.length){
+                    for (var i = 0; i < data.result.length; i++) {
+                        var marker = L.marker([data.result[i].lat, data.result[i].long], {icon: cookiePin});
+                        marker.bindPopup(data.result[i].secret);
+                        markers.addLayer(marker);
+                    };
+                    
+                    $('#posts tbody').html(posTemplate({results: posts, count: posts.length}));
+                }
 
-        });
-        
+            });
+        }
     });
     } else {
         $('div.container div').hide();
