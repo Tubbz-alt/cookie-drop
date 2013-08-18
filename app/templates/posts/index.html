@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <title>Bootstrap, from Twitter</title>
+    <title>Cookie Drop</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="">
@@ -34,7 +34,7 @@
       <div class="navbar-inner">
         <div class="container">
           <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-              <div class="btn-toobar">
+              <div class="btn-toolbar">
                 <div class="btn-group">
                   <a class="btn" href="#about"><i class="icon-info-sign"></i></a>
                   <a class="btn" href="#contact"><i class="icon-user"></i></a>
@@ -54,18 +54,44 @@
     </div>
 
     <div class="container">
-      <a href="#new" class="btn pull-right btn-primary">New Message</a>
-      <small>Cookie Drop allows you to share discreet messages in time in space.</small>
-      <div id="cookie-map"></div>
-
-    </div> <!-- /container -->
-
+        <div id="initial" class="nomap">
+            <p class="lead"><em>Cookie Drop</em> allows you to share discreet messages in time in space. Before you can create or view messages you must share your location.</p>
+            <p>Currently detecting your location...</p>
+        </div>
+        <div id="location-shared" style="display: none;">
+            <div class="btn-toolbar pull-right">
+              <a href="#new" class="btn btn-primary">New Message</a>
+            </div>
+            <div style="clear: both;" id="cookie-map"></div>
+        </div>
+        <div id="unsupported" class="nomap" style="display: none;">
+            <p>Alas, your browser does not support geolocation. Boo! Upgrade your browser, foo'.</p>
+        </div>
+  </div>
     <!-- Le javascript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
     <script src="/static/js/jquery-1.10.2.min.js"></script>
     <script src="/static/bootstrap/js/bootstrap.min.js"></script>
     <script src="http://cdn.leafletjs.com/leaflet-0.6.4/leaflet.js"></script>
+    <script src="/static/js/modernizr.geo.custom.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            if (Modernizr.geolocation) {
+                navigator.geolocation.getCurrentPosition(show_map);
+            } else {
+                $('div.container div').hide();
+                $('div#unsupported').show();
+            }
+            function get_location() {
+              navigator.geolocation.getCurrentPosition(show_map);
+            }
+        });
+        function show_map(position) {
+            $('div.nomap').hide();
+            $('div#location-shared').show();
+        }
+    </script>
 
     <script src="/static/js/posts.js"></script>
   </body>
