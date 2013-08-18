@@ -19,11 +19,6 @@ class Post(db.Model):
     lat = db.Column(db.Numeric(precision=8, scale=6))
     created_time = db.Column(db.DateTime, default=datetime.datetime.utcnow, nullable=False)
 
-    def __init__(self, secret, long, lat):
-        self.secret = secret
-        self.long = long
-        self.lat = lat
-
     @hybrid_method
     def distance(self, lat, long):
         km_per_deg_long = KM_PER_DEG_LAT * cos(radians(lat))
