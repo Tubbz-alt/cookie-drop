@@ -8,6 +8,7 @@ WTForms==1.0.4
 Werkzeug==0.9.3
 flake8==2.0
 geopy==0.95.1
+gunicorn==17.5
 ipython==1.0.0
 itsdangerous==0.23
 mccabe==0.2.1
