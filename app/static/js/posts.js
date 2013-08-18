@@ -6,7 +6,7 @@ $(document).ready(function() {
 
     navigator.geolocation.watchPosition(function(position) {
         $('div.nomap').hide();
-        $('div#location-shared').show();
+        $('div.location-shared').show();
         
         $('#new-message-form input[name=long]').val(position.coords.longitude);
         $('#new-message-form input[name=lat]').val(position.coords.latitude);
@@ -56,6 +56,8 @@ $(document).ready(function() {
         $('div#unsupported').show();
     }
 });
-$('.show-new-message-form').on('click', function() {
+$('.show-new-message-form').on('click', function(e) {
+    e.preventDefault();
     $('#new-message-form').toggle();
+    $('#new-message-form input[name=secret]').focus();
 });
