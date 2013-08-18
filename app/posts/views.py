@@ -17,16 +17,17 @@ class NewPostForm(Form):
     lat = HiddenField()
     secret = TextField('Message')
 
+
 @mod.route('')
 def home():
     form = NewPostForm()
     return render_template("posts/index.html", form=form)
 
 
-@mod.route('list')
-def list():
-    yesterday = datetime.datetime.utcnow() - datetime.timedelta(1)
-    posts = Post.query.all()
+@mod.route('list/<lat>/<long>', methods=['GET'])
+def list(lat, long):
+    #yesterday = datetime.datetime.utcnow() - datetime.timedelta(1)
+    posts = Post.nearby_posts(lat, long, 1)
     return jsonify(result=[{'long': str(p.long), 'lat': str(p.lat), 'secret': p.secret} for p in posts]), 200
 
 
@@ -40,4 +41,3 @@ def new():
         db.session.commit()
         return jsonify(result={'secret': post.secret, 'long': str(post.long), 'lat': str(post.lat)})
     return jsonify(result={'error': 'invalid form.'})
-
