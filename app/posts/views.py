@@ -11,6 +11,9 @@ from app.posts.models import Post
 
 mod = Blueprint('posts', __name__, url_prefix='/posts/')
 
+# How long ago should we be able to see posts?
+POST_AGE_THRESHOLD = 1
+
 
 class NewPostForm(Form):
     long = HiddenField()
