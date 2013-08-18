@@ -19,10 +19,10 @@ def home():
     return render_template("posts/index.html", posts=posts)
 
 
-@mod.route('list')
-def list():
-    yesterday = datetime.datetime.utcnow() - datetime.timedelta(1)
-    posts = Post.query.all()
+@mod.route('list/<lat>/<long>', methods=['GET'])
+def list(lat, long):
+    #yesterday = datetime.datetime.utcnow() - datetime.timedelta(1)
+    posts = Post.nearby_posts(lat, long, 1)
     return jsonify(result=[{'long': str(p.long), 'lat': str(p.lat), 'secret': p.secret} for p in posts]), 200
 
 
@@ -33,4 +33,3 @@ def new():
             lat=request.args.get('lat'))
     db.session.add(post)
     return jsonify(post)
-
