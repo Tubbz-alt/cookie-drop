@@ -3,6 +3,9 @@ import datetime
 from flask import Blueprint, request, render_template, flash, g, session, redirect, url_for, jsonify
 from werkzeug import check_password_hash, generate_password_hash
 
+from flask_wtf import Form
+from wtforms import TextField
+
 from app import db
 from app.posts.models import Post
 
@@ -19,8 +22,8 @@ def home():
 @mod.route('list')
 def list():
     yesterday = datetime.datetime.utcnow() - datetime.timedelta(1)
-    posts = Post.query.filter(Post.created_time > yesterday).order_by('created_time DESC').all()
-    return jsonify(result=posts)
+    posts = Post.query.all()
+    return jsonify(result=[{'long': str(p.long), 'lat': str(p.lat), 'secret': p.secret} for p in posts]), 200
 
 
 @mod.route('new', methods=['POST'])
