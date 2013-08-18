@@ -1,14 +1,13 @@
 $(document).ready(function() {
     if (Modernizr.geolocation) {
-     navigator.geolocation.getCurrentPosition(function(position){
+    var map = L.mapbox.map('cookie-map', 'egdelwonk.map-e1ydkdp5', {
+        attributionControl: false
+    });
+
+    navigator.geolocation.watchPosition(function(position) {
         $('div.nomap').hide();
         $('div#location-shared').show();
         
-        var map = L.mapbox.map('cookie-map', 'egdelwonk.map-e1ydkdp5', {
-            attributionControl: false
-        });
-
-
         $('#new-message-form input[name=long]').val(position.coords.longitude);
         $('#new-message-form input[name=lat]').val(position.coords.latitude);
 
@@ -49,7 +48,8 @@ $(document).ready(function() {
             $('#posts tbody').html(posTemplate({results: posts}));
         });
         
-     });
+    });
+
 
     } else {
         $('div.container div').hide();
