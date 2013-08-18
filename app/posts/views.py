@@ -11,6 +11,9 @@ from app.posts.models import Post
 
 mod = Blueprint('posts', __name__, url_prefix='/posts/')
 
+# How long ago should we be able to see posts?
+POST_AGE_THRESHOLD = 1
+
 
 class NewPostForm(Form):
     long = HiddenField()
@@ -26,9 +29,8 @@ def home():
 
 @mod.route('list/<lat>/<long>', methods=['GET'])
 def list(lat, long):
-    #yesterday = datetime.datetime.utcnow() - datetime.timedelta(1)
-    posts = Post.nearby_posts(lat, long, 1)
-    return jsonify(result=[{'long': str(p.long), 'lat': str(p.lat), 'secret': p.secret} for p in posts]), 200
+    posts = Post.nearby_posts(lat, long, POST_AGE_THRESHOLD)
+    return jsonify(result=[{'long': str(p.long), 'lat': str(p.lat), 'secret': p.secret, 'created': str(p.created_time)} for p in posts]), 200
 
 
 @mod.route('new', methods=['POST'])
