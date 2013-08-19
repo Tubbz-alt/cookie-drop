@@ -7,8 +7,7 @@ li {
 
 
 #cookie-map {
-    min-height: 300px;
-    max-height: 600px;
+    height: 360px;
 }
 #new-message-form {
     padding: 35px 15px;
