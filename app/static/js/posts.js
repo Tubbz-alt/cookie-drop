@@ -7,7 +7,7 @@ $(document).ready(function() {
     var lat, lng;
     var postSource   = $("#post-template").html();
     var posTemplate = Handlebars.compile(postSource);
-    var radiusBounds = L.circle([0, 0], 1069, {
+    var radiusBounds = L.circle([0, 0], 1069 * 5, {
             color: '#e4e6e8',
             fillColor: '#2e3846',
             fillOpacity: 0.3,
