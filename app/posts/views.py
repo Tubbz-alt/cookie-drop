@@ -11,8 +11,8 @@ from app.posts.models import Post
 
 mod = Blueprint('posts', __name__, url_prefix='/posts/')
 
-# How long ago should we be able to see posts?
-POST_AGE_THRESHOLD = 1
+# How far should we be able to see posts? (in miles)
+POST_DISTANCE_THRESHOLD = 5
 
 
 class NewPostForm(Form):
@@ -29,7 +29,7 @@ def home():
 
 @mod.route('list/<lat>/<long>', methods=['GET'])
 def list(lat, long):
-    posts = Post.nearby_posts(lat, long, POST_AGE_THRESHOLD)
+    posts = Post.nearby_posts(lat, long, POST_DISTANCE_THRESHOLD)
     return jsonify(result=[{'long': str(p.long), 'lat': str(p.lat), 'secret': p.secret, 'created': str(p.created_time)} for p in posts]), 200
 
 
@@ -41,6 +41,6 @@ def new():
         form.populate_obj(post)
         db.session.add(post)
         db.session.commit()
-        posts = Post.nearby_posts(post.lat, post.long, POST_AGE_THRESHOLD)
+        posts = Post.nearby_posts(post.lat, post.long, POST_DISTANCE_THRESHOLD)
         return jsonify(result=[{'long': str(p.long), 'lat': str(p.lat), 'secret': p.secret, 'created': str(p.created_time)} for p in posts]), 200
     return jsonify(result={'error': 'invalid form.'})
